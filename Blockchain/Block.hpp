@@ -8,11 +8,8 @@
 namespace bc {
 
 class Block {
-    struct Message {
-        std::string msg;
-        Hash        hash;
-    };
-
+public:
+    using Message = std::string;
     using Messages = std::vector<Message>;
 
 public:

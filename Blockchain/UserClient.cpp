@@ -15,34 +15,13 @@ void UserClient::receive(Session*, uint8_t const* data, size_t size) {
 
 void UserClient::onConnect() {
     sendRegistrationRequest();
-    
-    char const* text = "hello miner";
-    
-    uint8_t* msgData = session->allocateMessage();
-    Message& msg = *new (msgData) Message;
-    msg.type = MessageType::blockReq;
-    msg.size = strlen(text);
-    std::memcpy(msg.buffer, text, sizeof(text) + msg.size);
-    session->send(msgData, sizeof(msg) + msg.size);
-    
+    sendNextBlockReq();
+
     session->start();
+}
 
-
-
-    /*static int i = 0;
-    while (i < 5) {
-        uint8_t buffer[] = "helloxx";
-        buffer[5] = '0' + (i / 10) % 10;
-        buffer[6] = '0' + (i % 10);
-        boost::system::error_code errorCode;
-        session->getSocket().write_some(boost::asio::buffer(buffer, sizeof(buffer)), errorCode);
-        if (errorCode != boost::system::errc::success) {
-            std::cerr << "cant write_some" << std::endl;
-        }
-        boost::this_thread::sleep(boost::posix_time::millisec(1000));
-        ++i;
-    }
-    session->start();*/
+void UserClient::submitBlockMessage(Block::Messages const& msg) {
+    messages.push_back(msg);
 }
 
 void UserClient::sendRegistrationRequest() {
@@ -52,6 +31,17 @@ void UserClient::sendRegistrationRequest() {
     msg.type = MessageType::userRegister;
     msg.size = 0;
     session->send(msgData, sizeof(msg));
+}
+
+void UserClient::sendNextBlockReq() {
+    /*uint8_t* msgData = session->allocateMessage();
+    Message& msg = *new (msgData) Message;
+    msg.type = MessageType::blockReq;
+    msg.size = strlen(text);
+    std::memcpy(msg.buffer, text, sizeof(text) + msg.size);
+    session->send(msgData, sizeof(msg) + msg.size);*/
+
+    ++blockId;
 }
 
 } // namespace bc
