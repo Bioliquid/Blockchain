@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Client.hpp"
-#include "Block.hpp"
+#include "BlockChain.hpp"
+#include "RsaKeyPair.hpp"
 
 namespace bc {
 
@@ -11,7 +12,7 @@ public:
 
     virtual void receive(Session*, uint8_t const*, size_t) override;
 
-    void submitBlockMessage(Block::Messages const&);
+    void submitBlockMessage(Block::Message const&);
 
 private:
     virtual void onConnect() override;
@@ -19,8 +20,10 @@ private:
     void sendRegistrationRequest();
     void sendNextBlockReq();
 
+    RsaKeyPair                      keys;
+    BlockChain                      blockchain;
     uint64_t                        blockId = 0;
-    std::vector<Block::Messages>    messages;
+    std::vector<Block::Message>     messages;
 };
 
 } // namespace bc

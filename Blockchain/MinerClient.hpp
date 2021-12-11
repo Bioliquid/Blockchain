@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Client.hpp"
+#include "Block.hpp"
 
 #include <boost/thread.hpp>
 
@@ -14,6 +15,7 @@ public:
 
 private:
     virtual void onConnect() override;
+    void sendBlock(Block const&);
 
     void sendRegistrationRequest();
 };

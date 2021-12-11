@@ -10,9 +10,9 @@ Client::Client(boost::asio::io_service& ios, short port)
 void Client::run() {
     session = std::make_shared<Session>(0, ios, this);
     session->getSocket().async_connect(ep,
-                                        boost::bind(&Client::onConnectBase, this,
-                                        session,
-                                        boost::asio::placeholders::error));
+        boost::bind(&Client::onConnectBase, this,
+        session,
+        boost::asio::placeholders::error));
 }
 
 void Client::onConnectBase(std::shared_ptr<Session> connectedSession, boost::system::error_code const& err) {

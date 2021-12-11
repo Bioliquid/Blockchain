@@ -10,6 +10,7 @@ Session::Session(uint64_t sid, boost::asio::io_service& ioService, IReceiver* in
 
 void Session::start() {
     size_t bytesRead = socket.read_some(boost::asio::buffer(recvData, maxBufferSize));
+    std::cout << "Received " << bytesRead << " bytes" << std::endl;
     receiver->receive(this, recvData, bytesRead);
 }
 

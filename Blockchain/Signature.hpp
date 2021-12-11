@@ -106,6 +106,16 @@ private:
 
 class B64Message {
 public:
+    void alloc(char const* msg, size_t len) {
+        encLen = len;
+        encMsg = new char[len];
+        std::memcpy(encMsg, msg, len);
+    }
+
+    void dealloc() {
+        delete[] encMsg;
+    }
+
     void encode(Signature const& signature) {
         BIO* bio, * b64;
         BUF_MEM* bufferPtr;
@@ -139,6 +149,9 @@ public:
         signature.encMessageLen = BIO_read(bio, signature.encMessage, encLen);
         BIO_free_all(bio);
     }
+
+    size_t getMsgLen() const { return encLen; }
+    char const* getMsg() const { return encMsg; }
 
 private:
     size_t calcDecodeLength() {

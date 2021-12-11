@@ -7,19 +7,26 @@
 
 namespace bc {
 
-class Block {
-public:
+class BlockChain;
+
+struct Block {
     using Message = std::string;
-    using Messages = std::vector<Message>;
 
-public:
+    Block() = default;
 
-private:
+    Block(uint64_t inUid, Hash const& inPrevHash, Hash const& inHash, uint64_t inNonce, Message const& inData)
+        : uid(inUid)
+        , previousHash(inPrevHash)
+        , hash(inHash)
+        , nonce(inNonce)
+        , data(inData)
+    {}
+
     uint64_t    uid;
     Hash        previousHash;
     Hash        hash;
     uint64_t    nonce;
-    Messages    data;
+    Message     data;
 };
 
 } // namespace bc

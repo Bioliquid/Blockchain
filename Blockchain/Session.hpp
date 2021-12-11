@@ -11,7 +11,7 @@
 namespace bc {
 
 class Session : public std::enable_shared_from_this<Session> {
-    static constexpr uint64_t maxBufferSize = 1024;
+    static constexpr uint64_t maxBufferSize = 4096;
 
 public:
     Session(uint64_t, boost::asio::io_service&, IReceiver*);

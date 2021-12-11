@@ -55,17 +55,17 @@ public:
         privateKey[privateKeyLen] = '\0';
         publicKey[publicKeyLen] = '\0';
 
-        printf("\n%s\n%s\n", privateKey, publicKey);
-
-        if (!verify()) {
-            return false;
-        }
+        // printf("\n%s\n%s\n", privateKey, publicKey);
 
         // 4. free
         BIO_free_all(bp_public);
         BIO_free_all(bp_private);
         RSA_free(r);
         BN_free(bne);
+
+        if (!verify()) {
+            return false;
+        }
 
         return result == 1;
     }
