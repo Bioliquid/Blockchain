@@ -13,5 +13,6 @@ void memzero(T& t) {
 }
 
 std::pair<uint64_t, Hash> findHash(uint64_t, Hash, Hash);
+bool verifyHash(uint64_t, Hash, Hash, uint64_t);
 
 } // namespace bc

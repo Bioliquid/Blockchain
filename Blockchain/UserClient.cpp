@@ -1,6 +1,7 @@
 #include "UserClient.hpp"
 #include "Messages.hpp"
 #include "Signature.hpp"
+#include "Utils.hpp"
 
 namespace bc {
 
@@ -28,8 +29,12 @@ void UserClient::receive(Session*, uint8_t const* data, size_t size) {
 
     std::string message((char const*)blockRspData, messageLen);
 
-    Block block{rsp.uid, rsp.previousHash, rsp.hash, rsp.nonce, message};
-    blockchain.addBlock(block);
+    if (verifyHash(rsp.uid, rsp.previousHash, Hash{message}, rsp.nonce)) {
+        std::cout << "Hash is verified" << std::endl;
+
+        Block block{rsp.uid, rsp.previousHash, rsp.hash, rsp.nonce, message};
+        blockchain.addBlock(block);
+    }
 
     sendNextBlockReq();
 

@@ -21,4 +21,18 @@ std::pair<uint64_t, Hash> findHash(uint64_t uid, Hash prevHash, Hash dataHash) {
     return std::make_pair(0, Hash{});
 }
 
+bool verifyHash(uint64_t uid, Hash prevHash, Hash dataHash, uint64_t nonce) {
+    Hash header(std::to_string(uid));
+    header.compress(prevHash);
+    header.compress(dataHash);
+
+    Hash blockHash = header;
+    blockHash.compress(Hash(std::to_string(nonce)));
+    if (blockHash.verifyDifficulty()) {
+        return true;
+    }
+
+    return false;
+}
+
 } // namespace bc
